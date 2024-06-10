@@ -1,0 +1,32 @@
+{% extends 'base_generic.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+  <h1 class="mb-4">Salom {{ user.username }} 🤗</h1>
+  {% if request.user.is_superuser %}
+  <h3 class="text-xl">Statusingiz: ⭐️⭐️⭐️ Superuser</h3>
+  {% else %}
+  <h3 class="text-xl">Statusingiz: ⭐️⭐️ User</h3>
+  {% endif %}
+  <h1 class="mb-4">Sizning kirimlar va chiqimlar sahifangiz📊</h1>
+  <a href="{% url 'create_transaction' %}" class="btn btn-success mb-4">Tranzaksiya yaratish</a>
+  <ul class="list-group">
+    {% if transactions %}
+      {% for transaction in transactions %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          {{ transaction.description }} - {{ transaction.amount }} so'm 💵 - {{ transaction.date }}
+          <div>
+            <a href="{% url 'update_transaction' transaction.id %}" class="btn btn-secondary btn-sm">Tahrirlash</a>
+            <form action="{% url 'delete_transaction' transaction.id %}" method="post" style="display:inline;">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger btn-sm">O'chirish</button>
+            </form>
+          </div>
+        </li>
+      {% endfor %}
+    {% else %}
+      <p class="border py-3 px-4">Hozircha tranzaksiya mavjud emas ❌</p>
+    {% endif %}
+  </ul>
+{% endblock %}

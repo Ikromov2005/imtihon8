@@ -1,0 +1,12 @@
+{% extends 'base_generic.html' %}
+
+{% block title %}Confirm Delete{% endblock %}
+
+{% block content %}
+  <h1 class="mb-4">Are you sure you want to delete "{{ transaction.description }}"?</h1>
+  <form method="post" class="form">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Yes, delete</button>
+  </form>
+  <a href="{% url 'home' %}" class="btn btn-secondary mt-2">Cancel</a>
+{% endblock %}
